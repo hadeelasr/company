@@ -1,6 +1,7 @@
 
 <?php
 require('inc/header.php');
+session_start();
 ?>
 <?php
 require('handle/connection.php');
@@ -20,9 +21,17 @@ $admins=mysqli_fetch_all($result ,MYSQLI_ASSOC);
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3>All Admins</h3>
-                    <a href="#" class="btn btn-success">Add Admin</a>
+                    <a href="add-admin.php" class="btn btn-success">Add Admin</a>
                 </div>
+                <?php
+if(isset($_SESSION['success'])){?>
+<div class="alert alert-success"><?=$_SESSION['success']?></div>
 
+
+  <?php 
+}
+unset($_SESSION['success']);
+?>
                 <table class="table table-hover">
                     <thead>
                       <tr>
@@ -59,7 +68,7 @@ $admins=mysqli_fetch_all($result ,MYSQLI_ASSOC);
                             <a class="btn btn-sm btn-info" href="#">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a class="btn btn-sm btn-danger" href="#">
+                            <a class="btn btn-sm btn-danger" href="handle/delete-admin.php?id=<?=$admin['id']?>">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
@@ -67,7 +76,9 @@ $admins=mysqli_fetch_all($result ,MYSQLI_ASSOC);
                      <?php }}
                     else{
                       echo $msg;
-                    }?>
+                    }
+                    mysqli_close($con);
+                    ?>
                    
                     </tbody>
                 </table>
